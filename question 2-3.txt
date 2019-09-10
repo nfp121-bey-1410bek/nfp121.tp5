@@ -1,0 +1,104 @@
+public class JPanelListe2 extends JPanel implements ActionListener, ItemListener {
+
+    private JPanel cmd = new JPanel();
+    private JLabel afficheur = new JLabel();
+    private JTextField saisie = new JTextField();
+
+    private JPanel panelBoutons = new JPanel();
+    private JButton boutonRechercher = new JButton("rechercher");
+    private JButton boutonRetirer = new JButton("retirer");
+
+    private CheckboxGroup mode = new CheckboxGroup();
+    private Checkbox ordreCroissant = new Checkbox("croissant", mode, false);
+    private Checkbox ordreDecroissant = new Checkbox("décroissant", mode, false);
+
+    private JButton boutonOccurrences = new JButton("occurrence");
+
+    private JButton boutonAnnuler = new JButton("annuler");
+
+    private TextArea texte = new TextArea();
+
+    private List<String> liste;
+    private Map<String, Integer> occurrences;
+
+    public JPanelListe2(List<String> liste, Map<String, Integer> occurrences) {
+        this.liste = liste;
+        this.occurrences = occurrences;
+
+        cmd.setLayout(new GridLayout(3, 1));
+
+        cmd.add(afficheur);
+        cmd.add(saisie);
+
+        panelBoutons.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelBoutons.add(boutonRechercher);
+        panelBoutons.add(boutonRetirer);
+        panelBoutons.add(new JLabel("tri du texte :"));
+        panelBoutons.add(ordreCroissant);
+        panelBoutons.add(ordreDecroissant);
+        panelBoutons.add(boutonOccurrences);
+        panelBoutons.add(boutonAnnuler);
+        cmd.add(panelBoutons);
+
+
+        if(liste!=null && occurrences!=null){
+            afficheur.setText(liste.getClass().getName() + " et "+ occurrences.getClass().getName());
+            texte.setText(liste.toString());
+        }else{
+            texte.setText("la classe Chapitre2CoreJava semble incomplète");
+        }
+
+        setLayout(new BorderLayout());
+
+        add(cmd, "North");
+        add(texte, "Center");
+
+        boutonRechercher.addActionListener(this);
+        boutonRetirer.addActionListener(this);
+        boutonOccurrences.addActionListener(this);
+        ordreCroissant.addItemListener(this);
+        ordreDecroissant.addItemListener(this);
+
+        saisie.addActionListener(this);
+        boutonAnnuler.addActionListener(this);
+    }
+
+
+public void itemStateChanged(ItemEvent ie) {
+        List<String> listeBis = new ArrayList<String>(this.liste);
+        boolean res = false;
+        if (ie.getSource() == ordreCroissant){
+            res = true;
+            if(res) {sauvegarder(listeBis);}
+            Collections.sort(this.liste);
+        }else if (ie.getSource() == ordreDecroissant){
+            res = true;
+            if(res) {sauvegarder(listeBis);}
+            Collections.sort(this.liste, Collections.reverseOrder());
+        }
+        texte.setText(liste.toString());
+    }
+
+    private boolean retirerDeLaListeTousLesElementsCommencantPar(String prefixe) {
+        boolean resultat = false;
+        List<String> temp = this.liste;
+        Iterator<String> iter = temp.iterator();
+        while(iter.hasNext()) {
+            String s = iter.next();
+
+            if (s.startsWith(prefixe)) {
+                iter.remove();
+                resultat = true;
+                this.occurrences.put(s, 0);
+            }
+        }
+        return resultat;
+    }
+
+    private void sauvegarder(List<String> listSave){
+        pileSave.push(listSave);
+        
+    }
+}  
+
+

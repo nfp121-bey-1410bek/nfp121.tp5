@@ -1,0 +1,13 @@
+public class Ensemble<T> extends Ensemble {
+
+	protected java.util.Vector<T> table = new java.util.Vector<T>();
+
+	public int size() {
+		return table.size();
+	}
+
+	public Iterator<T> iterator() {
+		return table.iterator();
+	}
+
+	

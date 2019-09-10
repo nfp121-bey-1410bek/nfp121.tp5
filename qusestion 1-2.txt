@@ -1,0 +1,8 @@
+public boolean add(T t) {
+		if(this.table.contains(t)){
+				return false;
+			} else {
+				this.table.add(t);
+				return true;
+			} 
+		}

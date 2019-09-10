@@ -1,0 +1,12 @@
+public class TreeSetFactory<T extends Comparable> implements Factory<Set>{
+    public Set create(){
+        return new TreeSet<Comparable<T>>();
+    }
+
+}
+public class HashSetFactory<T> implements Factory<Set>{
+    public Set create(){
+        return new HashSet();
+    }
+
+}
